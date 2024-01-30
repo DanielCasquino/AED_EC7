@@ -37,17 +37,18 @@ public:
     }
 };
 
-int main()
-{
-    MedianFinder *obj = new MedianFinder();
-    obj->addNum(2);
-    obj->addNum(3);
-    obj->addNum(5);
-    obj->addNum(6);
-    double param_2 = obj->findMedian();
-    cout << param_2;
-    return 0;
-}
+// int main()
+// {
+//     MedianFinder *obj = new MedianFinder();
+//     obj->addNum(1);
+//     obj->addNum(2);
+//     obj->addNum(3);
+//     obj->addNum(4);
+//     obj->addNum(5);
+//     double param_2 = obj->findMedian();
+//     cout << param_2;
+//     return 0;
+// }
 
 /**
  * Your MedianFinder object will be instantiated and called as such:
