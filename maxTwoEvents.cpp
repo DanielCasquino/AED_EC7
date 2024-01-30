@@ -1,42 +1,45 @@
+#include <iostream>
 #include <vector>
-#include <queue>
 #include <algorithm>
 using namespace std;
 
+bool sortByEndTime(const vector<int> &a, const vector<int> &b){
+    return a[1] < b[1];
+}
 
-struct Krow{ int start, end, value;};
 class Solution
 {
 public:
     int maxTwoEvents(vector<vector<int>> &events){
-        auto comp = [](Krow a, Krow b){ return a.start > b.end; };
-        priority_queue<Krow, vector<Krow>, decltype(comp)> pq(comp);
+        sort(events.begin(), events.end(), sortByEndTime);
 
-        Krow aux;
+        int n = events.size();
+        vector<int> dp(n, 0);
 
-        int index = 1;
-        for (auto outer = events.begin(); outer != events.end(); ++outer){
-            for (auto inner = outer->begin(); inner != outer->end(); ++inner){
-                if(index == 1){
-                    aux.value = 2;
-                }
-                
-                if(*inner == 1){
-                    aux.start = index;
+        for (int i = 0; i < n; ++i){
+            dp[i] = events[i][2];
+            for (int j = i - 1; j >= 0; --j){
+                if (events[j][1] < events[i][0]){
+                    dp[i] = max(dp[i], dp[j] + events[i][2]);
+                    break;
                 }
             }
-            index++;
-            pq.push(aux);
+            if (i > 0){
+                dp[i] = max(dp[i], dp[i - 1]);
+            }
         }
+
+        return dp[n - 1];
     }
 };
 
 int main()
 {
-    vector<vector<int>> mat = {
-        {1, 1, 1, 0, 0},
-        {0, 0, 0, 1, 1},
-        {0, 1, 1, 1, 0}};
+    vector<vector<int>> events = {{1, 3, 2}, {4, 5, 2}, {2, 4, 3}};
+    Solution s;
+    auto result = s.maxTwoEvents(events); 
+
+    cout << result << endl;
 
     return 0;
 }
